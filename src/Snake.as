@@ -9,7 +9,7 @@ package
 				
 		//public properties
 		
-		public var bSize: int = 50;
+		public var bSize: int = 45;
 		
 		public var t:int;  //for the type of snake.  0=triangle, 1=square, 2=cross
 		  //size of the snake
@@ -45,23 +45,23 @@ package
 			
 		//}
 		public function addBody(size:int, snake:Sprite):void {
-			
+			//adding body segments is much more natural than I once thought because it knows zero to be lined up with it's parent (the snake head essentially)
 			//Add the body segments
 			var p:int = 0;    //placeholder for putting on the snake bods
 			for(var i:int = 0; i<size; i++){
 				bod = new SnakeBod();
-				snake.addChild(bod);
-				p += 50;
-				bod.x = (snake.x+100) - p;  //these shouldn't be right.  I think there is a problem with the reference point on the swf file.
-				bod.y = snake.y-50;
+				this.addChild(bod);
+				p += 45;
+				bod.x = -p;  
+				bod.y = 0;
 				
 				bod.rotation = 90;
 				snakeBods.push(bod);
 			}
-			p += bSize;
-			snake.addChild(tail);
-			tail.x = snake.x-p;
-			tail.y = snake.y;
+			p += 45;
+			this.addChild(tail);
+			tail.x = -p;
+			tail.y = 0;
 			tail.rotation = 90;
 		}
 		
@@ -73,57 +73,60 @@ package
 		//below needs fixed
 		public function turnSnake(dir:String, snake:Sprite):void {  //input the direction of the turn with the keyboard event; "up" "down" "left" or "right" (right could actually be any other string.)
 			var length:int = snakeBods.length;
+			//var bods:Array = body;
 			var p:int = 0;
 			var x:int = snake.x;
 			var y:int = snake.y;
 			if (dir=="up") {
-				snakeHead.rotation = 0;
+				snakeHead.rotation = 0;				
 				for (var i: int = 0; i<length; i++) {
-					p += bSize;
-					
-					snakeBods[i].x = x;
-					snakeBods[i].y = y - p; 
-					snakeBods[i].rotation = 0;
+					p += bSize;					
+					snakeBods[i].x = 0;
+					snakeBods[i].y = p; 
+					snakeBods[i].rotation = 0;					
 				}
-				p+=bSize
-				tail.x = x;
-				tail.y = y - p;
+				p+=bSize;
+				tail.x = 0;
+				tail.y = p;
 				tail.rotation = 0;
 			}
 			else if (dir=="down") {
-				snakeHead.rotation = 180;
+				snakeHead.rotation = 180;				
 				for (var i: int = 0; i<length; i++) {
 					p += bSize;
-					snakeBods[i].x = x;
-					snakeBods[i].y = y + p;
-					snakeBods[i].rotation = 180;
+					snakeBods[i].x = 0;
+					snakeBods[i].y = -p;
+					snakeBods[i].rotation = 180;					
 				}
-				tail.x = snakeHead.x;
-				tail.y = snakeHead.y + p;
+				p+=bSize;
+				tail.x = 0;
+				tail.y = -p;
 				tail.rotation = 180;
 			}
 			else if (dir=="left") {
-				snakeHead.rotation = 270;
+				snakeHead.rotation = -90;
 				for (var i: int = 0; i<length; i++) {
 					p += bSize;
-					snakeBods[i].x = x + p;
-					snakeBods[i].y = y; 
-					snakeBods[i].rotation = 270;
+					snakeBods[i].x = p;
+					snakeBods[i].y = 0; 
+					snakeBods[i].rotation = -90;
 				}
-				tail.x = x + p;
-				tail.y = y;
-				tail.rotation = 270;
+				p += bSize;
+				tail.x = p;
+				tail.y = 0;
+				tail.rotation = -90;
 			}
 			else {
 				snakeHead.rotation = 90;
 				for (var i: int = 0; i<length; i++) {
 					p += bSize;
-					snakeBods[i].x = x - p;
-					snakeBods[i].y = y; 
+					snakeBods[i].x = -p;
+					snakeBods[i].y = 0; 
 					snakeBods[i].rotation = 90;
 				}
-				tail.x = x - p;
-				tail.y = y;
+				p += bSize;
+				tail.x = -p;
+				tail.y = 0;
 				tail.rotation = 90;
 			}
 		}
