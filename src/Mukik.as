@@ -80,55 +80,71 @@ package
 				
 			if(bounce) {
 				for(var i:int = 0; i<snakeBods.length; i++) {
+					
 					if (dir == "r") { //trying this out
+						/*
 						if (snake.x<b*2) { 
-							snakeBods[i].y += bvy;
-							snakeBods[i].x += bvx;
+							snakeBods[i].y = snake.y;
+							snakeBods[i].x = snake.x;
 							//snakeBods[i].rotation = 90;
 						}
-						else if (snake.x<b*3) {
+						*/
+						if (snake.x<b*3) {
 							if(i==0) {
 								snakeBods[i].x = snake.x-b;
 								snakeBods[i].y = yTurn;
 								snakeBods[i].rotation = 90;
 							}
+							
 							if (i>0) {
-								snakeBods[i].y += bvy;
-								snakeBods[i].x += bvx;
-							}					
+							snakeBods[i].visible = false;
+							//snakeBods[i].y = yTurn+b;
+							}
+							
 						}
 						else if (snake.x<b*4) {
 							if(i==1) {
 								snakeBods[i].x = snake.x-b*(i+1);
 								snakeBods[i].y = yTurn;
 								snakeBods[i].rotation = 90;
+								snakeBods[i].visible = true;
 							}
+							/*
 							if (i>1) {
 								snakeBods[i].y += bvy;
 								snakeBods[i].x += bvx;
-							}														
+							}
+							*/
 						}
 						else if (snake.x<b*5) {
 							if(i==2) {
 								snakeBods[i].x = snake.x-b*(i+1);
 								snakeBods[i].y = yTurn;
 								snakeBods[i].rotation = 90;
+								snakeBods[i].visible = true;
+
 							}
+							/*
 							if (i>2) {
 								snakeBods[i].y += bvy;
 								snakeBods[i].x += bvx;
-							}														
+							}
+							*/
 						}
 						else if (snake.x<b*6) {
 							if(i==3) {
 								snakeBods[i].x = snake.x-b*(i+1);
 								snakeBods[i].y = yTurn;
 								snakeBods[i].rotation = 90;
+								snakeBods[i].visible = true;
+
 							}
+							/*
 							if (i>3) {
 								snakeBods[i].y += bvy;
 								snakeBods[i].x += bvx;
-							}							
+							}
+							*/
 						}
 						else {
 							bounce = false;
