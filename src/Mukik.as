@@ -57,12 +57,12 @@ package
 			var p:int = 0;    //placeholder for putting on the snake bods
 			for(var i:int = 0; i<size; i++){
 				bod = new SnakeBod();
-				p += 45;
+				p += b;
 				addObject(bod, snake.x-p, snake.y);				
 				bod.rotation = 90;
 				snakeBods.push(bod);
 			}
-			p +=45;
+			p += b;
 			addObject(tail,snake.x-p, snake.y);
 			tail.rotation = 90;
 			snakeBods.push(tail);
@@ -82,13 +82,7 @@ package
 				for(var i:int = 0; i<snakeBods.length; i++) {
 					
 					if (dir == "r") { //trying this out
-						/*
-						if (snake.x<b*2) { 
-							snakeBods[i].y = snake.y;
-							snakeBods[i].x = snake.x;
-							//snakeBods[i].rotation = 90;
-						}
-						*/
+						
 						if (snake.x<b*3) {
 							if(i==0) {
 								snakeBods[i].x = snake.x-b;
@@ -109,12 +103,7 @@ package
 								snakeBods[i].rotation = 90;
 								snakeBods[i].visible = true;
 							}
-							/*
-							if (i>1) {
-								snakeBods[i].y += bvy;
-								snakeBods[i].x += bvx;
-							}
-							*/
+							
 						}
 						else if (snake.x<b*5) {
 							if(i==2) {
@@ -124,12 +113,7 @@ package
 								snakeBods[i].visible = true;
 
 							}
-							/*
-							if (i>2) {
-								snakeBods[i].y += bvy;
-								snakeBods[i].x += bvx;
-							}
-							*/
+							
 						}
 						else if (snake.x<b*6) {
 							if(i==3) {
@@ -139,12 +123,151 @@ package
 								snakeBods[i].visible = true;
 
 							}
-							/*
-							if (i>3) {
-								snakeBods[i].y += bvy;
-								snakeBods[i].x += bvx;
+							
+						}
+						else {
+							bounce = false;
+						}
+					}
+					if (dir == "l") { //trying this out
+						
+						if (snake.x>stage.width-b*3) {
+							if(i==0) {
+								snakeBods[i].x = snake.x+b;
+								snakeBods[i].y = yTurn;
+								snakeBods[i].rotation = -90;
 							}
-							*/
+							
+							if (i>0) {
+								snakeBods[i].visible = false;
+								//snakeBods[i].y = yTurn+b;
+							}
+							
+						}
+						else if (snake.x>stage.width-b*4) {
+							if(i==1) {
+								snakeBods[i].x = snake.x+b*(i+1);
+								snakeBods[i].y = yTurn;
+								snakeBods[i].rotation = -90;
+								snakeBods[i].visible = true;
+							}
+							
+						}
+						else if (snake.x>stage.width-b*5) {
+							if(i==2) {
+								snakeBods[i].x = snake.x+b*(i+1);
+								snakeBods[i].y = yTurn;
+								snakeBods[i].rotation = -90;
+								snakeBods[i].visible = true;
+								
+							}
+							
+						}
+						else if (snake.x>stage.width-b*6) {
+							if(i==3) {
+								snakeBods[i].x = snake.x+b*(i+1);
+								snakeBods[i].y = yTurn;
+								snakeBods[i].rotation = -90;
+								snakeBods[i].visible = true;
+								
+							}
+							
+						}
+						else {
+							bounce = false;
+						}
+					}
+					if (dir == "u") { //trying this out
+						
+						if (snake.y>stage.height-b*3) {
+							if(i==0) {
+								snakeBods[i].y = snake.y+b;
+								snakeBods[i].x = xTurn;
+								snakeBods[i].rotation = 0;
+							}
+							
+							if (i>0) {
+								snakeBods[i].visible = false;
+								//snakeBods[i].y = yTurn+b;
+							}
+							
+						}
+						else if (snake.y>stage.height-b*4) {
+							if(i==1) {
+								snakeBods[i].y = snake.y+b*(i+1);
+								snakeBods[i].x = xTurn;
+								snakeBods[i].rotation = 0;
+								snakeBods[i].visible = true;
+							}
+							
+						}
+						else if (snake.y>stage.height-b*5) {
+							if(i==2) {
+								snakeBods[i].y = snake.y+b*(i+1);
+								snakeBods[i].x = xTurn;
+								snakeBods[i].rotation = 0;
+								snakeBods[i].visible = true;
+								
+							}
+							
+						}
+						else if (snake.y>stage.height-b*6) {
+							if(i==3) {
+								snakeBods[i].y = snake.y+b*(i+1);
+								snakeBods[i].x = xTurn;
+								snakeBods[i].rotation = 0;
+								snakeBods[i].visible = true;
+								
+							}
+							
+						}
+						else {
+							bounce = false;
+						}
+					}
+					if (dir == "d") { //trying this out
+						
+						if (snake.y<b*3) {
+							if(i==0) {
+								snakeBods[i].y = snake.y-b;
+								snakeBods[i].x = xTurn;
+								snakeBods[i].rotation = 180;
+							}
+							
+							if (i>0) {
+								snakeBods[i].visible = false;
+								//snakeBods[i].y = yTurn+b;
+							}
+							
+						}
+						else if (snake.y<b*4) {
+							if(i==1) {
+								snakeBods[i].y = snake.y-b*(i+1);
+								snakeBods[i].x = xTurn;
+								snakeBods[i].rotation = 180;
+								snakeBods[i].visible = true;
+							}
+							
+						}
+						else if (snake.y<b*5) {
+							if(i==2) {
+								snakeBods[i].y = snake.y-b*(i+1);
+								snakeBods[i].x = xTurn;
+								snakeBods[i].rotation = 180;
+								snakeBods[i].visible = true;
+								
+							}
+							
+						}
+						else if (snake.y<b*6) {
+							if(i==3) {
+								snakeBods[i].y = snake.y-b*(i+1);
+								snakeBods[i].x = xTurn;
+								snakeBods[i].rotation = 180;
+								snakeBods[i].visible = true;
+								
+							}
+							
 						}
 						else {
 							bounce = false;
@@ -168,7 +291,7 @@ package
 								snakeBods[i].y = yTurn;
 								snakeBods[i].x += bvx*1.1;
 							}
-						}						
+						}			
 						
 						else if(snake.y < yTurn+b*3) {
 							if(i==1) {
@@ -197,6 +320,56 @@ package
 								snakeBods[i].y = snake.y-b*(i+1);
 								snakeBods[i].x = xTurn;
 								snakeBods[i].rotation = 180;
+							}
+							if (i>3) {
+								snakeBods[i].y = yTurn;
+								snakeBods[i].x += bvx*1.1;
+							}
+						}
+						else {
+							turn = false;
+						}						
+					}
+					if (dir == "u") {
+						if(snake.y > yTurn-b*2){
+							if(i==0) {
+								snakeBods[i].y = snake.y+b;
+								snakeBods[i].x = xTurn;
+								snakeBods[i].rotation = 0;
+							}
+							if (i>0) {
+								snakeBods[i].y = yTurn;
+								snakeBods[i].x += bvx*1.1;
+							}
+						}			
+							
+						else if(snake.y > yTurn-b*3) {
+							if(i==1) {
+								snakeBods[i].y = snake.y+b*(i+1);
+								snakeBods[i].x = xTurn;
+								snakeBods[i].rotation = 0;
+							}
+							if (i>1) {
+								snakeBods[i].y = yTurn;
+								snakeBods[i].x += bvx*1.1;
+							}
+						}
+						else if(snake.y > yTurn-b*4) {
+							if(i==2) {
+								snakeBods[i].y = snake.y+b*(i+1);
+								snakeBods[i].x = xTurn;
+								snakeBods[i].rotation = 0;
+							}
+							if (i>2) {
+								snakeBods[i].y = yTurn;
+								snakeBods[i].x += bvx*1.1;
+							}
+						}
+						else if(snake.y > yTurn-b*5) {
+							if(i==3) {
+								snakeBods[i].y = snake.y+b*(i+1);
+								snakeBods[i].x = xTurn;
+								snakeBods[i].rotation = 0;
 							}
 							if (i>3) {
 								snakeBods[i].y = yTurn;
@@ -257,6 +430,56 @@ package
 							turn = false;
 						}						
 					}
+					if (dir == "r") {
+						if(snake.x < xTurn+b*2){
+							if(i==0) {
+								snakeBods[i].x = snake.x-b;
+								snakeBods[i].y = yTurn;
+								snakeBods[i].rotation = 90;
+							}
+							if (i>0) {
+								snakeBods[i].x = xTurn;
+								snakeBods[i].y += bvy*1.1;
+							}
+						}						
+							
+						else if(snake.x < xTurn+b*3){
+							if(i==1) {
+								snakeBods[i].x = snake.x-b*(i+1);
+								snakeBods[i].y = yTurn;
+								snakeBods[i].rotation = 90;
+							}
+							if (i>1) {
+								snakeBods[i].x = xTurn;
+								snakeBods[i].y += bvy*1.1;
+							}												
+						}
+						else if(snake.x < xTurn+b*4){
+							if(i==2) {
+								snakeBods[i].x = snake.x-b*(i+1);
+								snakeBods[i].y = yTurn;
+								snakeBods[i].rotation = 90;
+							}
+							if (i>2) {
+								snakeBods[i].x = xTurn;
+								snakeBods[i].y += bvy*1.1;
+							}
+						}						
+						else if(snake.x < xTurn+b*5){
+							if(i==3) {
+								snakeBods[i].x = snake.x-b*(i+1);
+								snakeBods[i].y = yTurn;
+								snakeBods[i].rotation = 90;
+							}
+							if (i>3) {
+								snakeBods[i].x = xTurn;
+								snakeBods[i].y += bvy*1.1;
+							}
+						}						
+						else {
+							turn = false;
+						}						
+					}
 				}				
 			}
 			/*
@@ -297,37 +520,37 @@ package
 				//turnSnake("right", snake);
 				dir='r';			
 			}
-			if (snake.x>stage.stageWidth-50){
-				xTurn = snake.x;
-				yTurn = snake.y;
+			if (snake.x>stage.stageWidth-50){				
 				vx *= -1;
 				vy=0;
 				snake.y+=50;
 				snake.x-=50;
+				xTurn = snake.x;
+				yTurn = snake.y;
 				bounce = true;
 				snake.rotation = 180;
 				//turnSnake("left", snake); 
 				dir='l';
 			}			
 			if (snake.y>stage.stageHeight-50) {
-				xTurn = snake.x;
-				yTurn = snake.y;
 				vy *= -1;
 				vx=0;
 				snake.x-=50;
 				snake.y-=50;
+				xTurn = snake.x;
+				yTurn = snake.y;
 				bounce = true;
 				snake.rotation = -90;
 				//turnSnake("up", snake);
 				dir='u';
 			}
 			if (snake.y<50) {
-				xTurn = snake.x;
-				yTurn = snake.y;
 				vy *= -1;
 				vx=0;
 				snake.x+=50;
 				snake.y+=50;
+				xTurn = snake.x;
+				yTurn = snake.y;
 				bounce = true;
 				snake.rotation = 90;
 				//turnSnake("down", snake);	
@@ -342,10 +565,11 @@ package
 				vy=0;				
 				if (dir!='r') {
 					turn = true;
-					xTurn = snake.x;
-					yTurn = snake.y;
+					
 					if (dir=='u') {snake.x+=50;}
 					else {snake.y-=50;}
+					xTurn = snake.x;
+					yTurn = snake.y;
 					snake.rotation = 0;					
 					dir='r';
 				}
@@ -356,10 +580,11 @@ package
 				vy=0;
 				if (dir!='l') {
 					turn = true;
-					xTurn = snake.x;
-					yTurn = snake.y;
+					
 					if (dir=='d') {snake.x-=50;}
 					else {snake.y+=50;}
+					xTurn = snake.x;
+					yTurn = snake.y;
 					snake.rotation = 180;					
 					dir='l';
 				}
@@ -369,10 +594,11 @@ package
 				vx=0;
 				if (dir!='u') {
 					turn = true;
+					
+					if (dir=='l') {snake.y-=50;}
+					else {snake.x-=50;}
 					xTurn = snake.x;
 					yTurn = snake.y;
-					if (dir=='l') {snake.y-=50;}
-					else {snake.x-=50;}					
 					snake.rotation = -90;					
 					dir='u';
 				}
@@ -382,10 +608,10 @@ package
 				vx=0;
 				if (dir!='d') {
 					turn = true;
+					if (dir=='r') {snake.y+=50;}
+					else {snake.x+=50;}
 					xTurn = snake.x;
 					yTurn = snake.y;
-					if (dir=='r') {snake.y+=50;}
-					else {snake.x+=50;}						
 					snake.rotation = 90;					
 					dir='d';
 				}
@@ -455,6 +681,6 @@ package
 		public function removeBod():void {
 			snakeBods.pop();
 			this.removeChild(snakeBods[size-2]);
-	} 
+		} 
 	}
 }
