@@ -152,8 +152,16 @@ package
 						if (dir=="d") {
 							reverse("up", snake);
 						}
-					}
-					
+						if (dir =="u") {
+							reverse("down", snake);
+						}
+						if (dir=="r") {
+							reverse("left", snake);
+						}
+						if (dir=="l") {
+							reverse("right", snake);
+						}
+					}					
 				}
 			}
 			
@@ -169,7 +177,7 @@ package
 								snakeBods[i].y = snake.y-b;
 								snakeBods[i].x = xTurn;
 								snakeBods[i].rotation = 180;
-								if(!snakeBods[i].visible) {
+								if(snakeBods[i].visible==false) {
 									snakeBods[i].visible = true;
 								}
 							}
@@ -184,7 +192,7 @@ package
 								snakeBods[i].y = snake.y-b*(i+1);
 								snakeBods[i].x = xTurn;
 								snakeBods[i].rotation = 180;
-								if(!snakeBods[i].visible) {
+								if(snakeBods[i].visible==false) {
 									snakeBods[i].visible = true;
 								}
 							}
@@ -198,7 +206,7 @@ package
 								snakeBods[i].y = snake.y-b*(i+1);
 								snakeBods[i].x = xTurn;
 								snakeBods[i].rotation = 180;
-								if(!snakeBods[i].visible) {
+								if(snakeBods[i].visible==false) {
 									snakeBods[i].visible = true;
 								}
 							}
@@ -212,7 +220,7 @@ package
 								snakeBods[i].y = snake.y-b*(i+1);
 								snakeBods[i].x = xTurn;
 								snakeBods[i].rotation = 180;
-								if(!snakeBods[i].visible) {
+								if(snakeBods[i].visible==false) {
 									snakeBods[i].visible = true;
 								}
 							}
@@ -230,6 +238,9 @@ package
 								snakeBods[i].y = snake.y+b;
 								snakeBods[i].x = xTurn;
 								snakeBods[i].rotation = 0;
+								if(snakeBods[i].visible==false) {
+									snakeBods[i].visible = true;
+								}
 							}
 							if (i>0) {
 								snakeBods[i].y = yTurn;
@@ -242,6 +253,9 @@ package
 								snakeBods[i].y = snake.y+b*(i+1);
 								snakeBods[i].x = xTurn;
 								snakeBods[i].rotation = 0;
+								if(snakeBods[i].visible==false) {
+									snakeBods[i].visible = true;
+								}
 							}
 							if (i>1) {
 								snakeBods[i].y = yTurn;
@@ -253,6 +267,9 @@ package
 								snakeBods[i].y = snake.y+b*(i+1);
 								snakeBods[i].x = xTurn;
 								snakeBods[i].rotation = 0;
+								if(snakeBods[i].visible==false) {
+									snakeBods[i].visible = true;
+								}
 							}
 							if (i>2) {
 								snakeBods[i].y = yTurn;
@@ -264,6 +281,9 @@ package
 								snakeBods[i].y = snake.y+b*(i+1);
 								snakeBods[i].x = xTurn;
 								snakeBods[i].rotation = 0;
+								if(snakeBods[i].visible==false) {
+									snakeBods[i].visible = true;
+								}
 							}
 							if (i>3) {
 								snakeBods[i].y = yTurn;
@@ -279,6 +299,9 @@ package
 								snakeBods[i].x = snake.x+b;
 								snakeBods[i].y = yTurn;
 								snakeBods[i].rotation = -90;
+								if(snakeBods[i].visible==false) {
+									snakeBods[i].visible = true;
+								}
 							}
 							if (i>0) {
 								snakeBods[i].x = xTurn;
@@ -291,6 +314,9 @@ package
 								snakeBods[i].x = snake.x+b*(i+1);
 								snakeBods[i].y = yTurn;
 								snakeBods[i].rotation = -90;
+								if(snakeBods[i].visible==false) {
+									snakeBods[i].visible = true;
+								}
 							}
 							if (i>1) {
 								snakeBods[i].x = xTurn;
@@ -302,6 +328,9 @@ package
 								snakeBods[i].x = snake.x+b*(i+1);
 								snakeBods[i].y = yTurn;
 								snakeBods[i].rotation = -90;
+								if(snakeBods[i].visible==false) {
+									snakeBods[i].visible = true;
+								}
 							}
 							if (i>2) {
 								snakeBods[i].x = xTurn;
@@ -313,6 +342,9 @@ package
 								snakeBods[i].x = snake.x+b*(i+1);
 								snakeBods[i].y = yTurn;
 								snakeBods[i].rotation = -90;
+								if(snakeBods[i].visible==false) {
+									snakeBods[i].visible = true;
+								}
 							}
 							if (i>3) {
 								snakeBods[i].x = xTurn;
@@ -332,6 +364,9 @@ package
 								snakeBods[i].x = snake.x-b;
 								snakeBods[i].y = yTurn;
 								snakeBods[i].rotation = 90;
+								if(snakeBods[i].visible==false) {
+									snakeBods[i].visible = true;
+								}
 							}
 							if (i>0) {
 								snakeBods[i].x = xTurn;
@@ -344,6 +379,9 @@ package
 								snakeBods[i].x = snake.x-b*(i+1);
 								snakeBods[i].y = yTurn;
 								snakeBods[i].rotation = 90;
+								if(snakeBods[i].visible==false) {
+									snakeBods[i].visible = true;
+								}
 							}
 							if (i>1) {
 								snakeBods[i].x = xTurn;
@@ -355,6 +393,9 @@ package
 								snakeBods[i].x = snake.x-b*(i+1);
 								snakeBods[i].y = yTurn;
 								snakeBods[i].rotation = 90;
+								if(snakeBods[i].visible==false) {
+									snakeBods[i].visible = true;
+								}
 							}
 							if (i>2) {
 								snakeBods[i].x = xTurn;
@@ -366,6 +407,9 @@ package
 								snakeBods[i].x = snake.x-b*(i+1);
 								snakeBods[i].y = yTurn;
 								snakeBods[i].rotation = 90;
+								if(snakeBods[i].visible==false) {
+									snakeBods[i].visible = true;
+								}
 							}
 							if (i>3) {
 								snakeBods[i].x = xTurn;
@@ -620,7 +664,7 @@ package
 				bvy = vy;
 			}
 			if(event.keyCode == Keyboard.RIGHT) {				
-				vx=5;
+				vx=2;
 				vy=0;				
 				if (dir!='r') {
 					turn = true;
@@ -636,7 +680,7 @@ package
 				
 			}
 			else if(event.keyCode == Keyboard.LEFT) {
-				vx=-5;
+				vx=-2;
 				vy=0;
 				if (dir!='l') {
 					turn = true;
@@ -651,7 +695,7 @@ package
 				}
 			}
 			else if(event.keyCode == Keyboard.UP) {
-				vy=-5;
+				vy=-2;
 				vx=0;
 				if (dir!='u') {
 					turn = true;
@@ -665,7 +709,7 @@ package
 				}
 			}
 			else if(event.keyCode == Keyboard.DOWN) {				
-				vy=5;
+				vy=2;
 				vx=0;
 				if (dir!='d') {
 					turn = true;
