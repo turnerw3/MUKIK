@@ -20,6 +20,7 @@ package
 		private var rocks:Array = new Array();
 		public var symbol:SymRock;
 		private var symRocks:Array = new Array();
+		//public var boxMap:Object = new Object();  //hopefully dont need this
 		public var size:int = 3; //length of the snake
 		public var snakeBods:Array = new Array();
 		public var bod:SnakeBod;
@@ -61,25 +62,26 @@ package
 						rock = new Rock();
 						addObject(rock, j*50 + 50, i*50 + 50);
 						rocks.push(rock);
+						
 						if(board[i][j] == 1) {    //if the number is one put a hidden triangle there
 							symbol = new SymRock(0);
 							addObject(symbol, j*50 + 50, i*50 + 50);
 							symRocks.push(symbol);
 							symbol.visible = false;
 						}
-						if(board[i][j] == 2) {    //if the number is one put a hidden square there
+						if(board[i][j] == 2) {    //if the number is two put a hidden square there
 							symbol = new SymRock(1);
 							addObject(symbol, j*50 + 50, i*50 + 50);
 							symRocks.push(symbol);
 							symbol.visible = false;
 						}
-						if(board[i][j] == 3) {    //if the number is one put a hidden cross there
+						if(board[i][j] == 3) {    //if the number is three put a hidden cross there
 							symbol = new SymRock(2);
 							addObject(symbol, j*50 + 50, i*50 + 50);
 							symRocks.push(symbol);
 							symbol.visible = false;
 						}
-						if(board[i][j] == 4) {    //if the number is one put a hidden skull there
+						if(board[i][j] == 4) {    //if the number is four put a hidden skull there
 							symbol = new SymRock(3);
 							addObject(symbol, j*50 + 50, i*50 + 50);
 							symRocks.push(symbol);
@@ -89,7 +91,7 @@ package
 				}
 			}
 			
-			addObject(snake, 200, 50);
+			addObject(snake, 200, 50);  
 			addBody(size);
 			dir = 'r';
 		}
@@ -121,6 +123,7 @@ package
 		}
 		
 		
+		
 		public function enterFrameHandler(event:Event):void {
 			//var p:int = 0;
 			snake.x += vx;
@@ -129,10 +132,34 @@ package
 			for(var i:int = 0; i<size+1; i++) {
 				snakeBods[i].x += vx;
 				snakeBods[i].y += vy;
-			}	
+			}
+			//set the vision
+			
+			//checking for collision type and direction 
+			for (var i:int = 0; i<rocks.length; i++) {
+				if (Math.abs(snake.x-rocks[i].x) < 150 && Math.abs(snake.y-rocks[i].y) < 200) {
+					symRocks[i].visible = true;
+				}
+				else {symRocks[i].visible = false;}
 				
+				if (snake.hitTestObject(rocks[i]) && snake.type == symRocks[i].type) {
+					rocks[i].visible = false;
+					symRocks[i].visible = false;
+					//this.removeChild(symRocks[i]);
+				}
+				else if (snake.hitTestObject(rocks[i])) {
+					if (snake.x > rocks[i].x && snake.x < rocks[i].x+b && snake.y > rocks[i].y && snake.y < rocks[i].y+b) {
+						if (dir=="d") {
+							reverse("up", snake);
+						}
+					}
+					
+				}
+			}
+			
 			
 			if (turn) {
+				bounce = false;
 				//var j:int = 0;
 				for(var i:int = 0; i<snakeBods.length; i++) {
 					//j++;
@@ -142,6 +169,9 @@ package
 								snakeBods[i].y = snake.y-b;
 								snakeBods[i].x = xTurn;
 								snakeBods[i].rotation = 180;
+								if(!snakeBods[i].visible) {
+									snakeBods[i].visible = true;
+								}
 							}
 							if (i>0) {
 								snakeBods[i].y = yTurn;
@@ -154,6 +184,9 @@ package
 								snakeBods[i].y = snake.y-b*(i+1);
 								snakeBods[i].x = xTurn;
 								snakeBods[i].rotation = 180;
+								if(!snakeBods[i].visible) {
+									snakeBods[i].visible = true;
+								}
 							}
 							if (i>1) {
 								snakeBods[i].y = yTurn;
@@ -165,6 +198,9 @@ package
 								snakeBods[i].y = snake.y-b*(i+1);
 								snakeBods[i].x = xTurn;
 								snakeBods[i].rotation = 180;
+								if(!snakeBods[i].visible) {
+									snakeBods[i].visible = true;
+								}
 							}
 							if (i>2) {
 								snakeBods[i].y = yTurn;
@@ -176,6 +212,9 @@ package
 								snakeBods[i].y = snake.y-b*(i+1);
 								snakeBods[i].x = xTurn;
 								snakeBods[i].rotation = 180;
+								if(!snakeBods[i].visible) {
+									snakeBods[i].visible = true;
+								}
 							}
 							if (i>3) {
 								snakeBods[i].y = yTurn;
@@ -341,9 +380,9 @@ package
 			else if(bounce) {
 				for(var i:int = 0; i<snakeBods.length; i++) {
 					
-					if (dir == "r") { //trying this out
+					if (dir == "r") { 
 						
-						if (snake.x<b*3) {
+						if (snake.x<xTurn+b*2) {
 							if(i==0) {
 								snakeBods[i].x = snake.x-b;
 								snakeBods[i].y = yTurn;
@@ -356,7 +395,7 @@ package
 							}
 							
 						}
-						else if (snake.x<b*4) {
+						else if (snake.x<xTurn+b*3) {
 							if(i==1) {
 								snakeBods[i].x = snake.x-b*(i+1);
 								snakeBods[i].y = yTurn;
@@ -365,7 +404,7 @@ package
 							}
 							
 						}
-						else if (snake.x<b*5) {
+						else if (snake.x<xTurn+b*4) {
 							if(i==2) {
 								snakeBods[i].x = snake.x-b*(i+1);
 								snakeBods[i].y = yTurn;
@@ -375,7 +414,7 @@ package
 							}
 							
 						}
-						else if (snake.x<b*6) {
+						else if (snake.x<xTurn+b*5) {
 							if(i==3) {
 								snakeBods[i].x = snake.x-b*(i+1);
 								snakeBods[i].y = yTurn;
@@ -387,9 +426,9 @@ package
 						}
 						
 					}
-					if (dir == "l") { //trying this out
+					if (dir == "l") { 
 						
-						if (snake.x>stage.width-b*3) {
+						if (snake.x>xTurn-b*2) {
 							if(i==0) {
 								snakeBods[i].x = snake.x+b;
 								snakeBods[i].y = yTurn;
@@ -402,7 +441,7 @@ package
 							}
 							
 						}
-						else if (snake.x>stage.width-b*4) {
+						else if (snake.x>xTurn-b*3) {
 							if(i==1) {
 								snakeBods[i].x = snake.x+b*(i+1);
 								snakeBods[i].y = yTurn;
@@ -411,7 +450,7 @@ package
 							}
 							
 						}
-						else if (snake.x>stage.width-b*5) {
+						else if (snake.x>xTurn-b*4) {
 							if(i==2) {
 								snakeBods[i].x = snake.x+b*(i+1);
 								snakeBods[i].y = yTurn;
@@ -421,7 +460,7 @@ package
 							}
 							
 						}
-						else if (snake.x>stage.width-b*6) {
+						else if (snake.x>xTurn-b*5) {
 							if(i==3) {
 								snakeBods[i].x = snake.x+b*(i+1);
 								snakeBods[i].y = yTurn;
@@ -434,9 +473,9 @@ package
 						}
 						
 					}
-					if (dir == "u") { //trying this out
+					if (dir == "u") { 
 						
-						if (snake.y>stage.height-b*3) {
+						if (snake.y>yTurn-b*2) {
 							if(i==0) {
 								snakeBods[i].y = snake.y+b;
 								snakeBods[i].x = xTurn;
@@ -449,7 +488,7 @@ package
 							}
 							
 						}
-						else if (snake.y>stage.height-b*4) {
+						else if (snake.y>yTurn-b*3) {
 							if(i==1) {
 								snakeBods[i].y = snake.y+b*(i+1);
 								snakeBods[i].x = xTurn;
@@ -458,7 +497,7 @@ package
 							}
 							
 						}
-						else if (snake.y>stage.height-b*5) {
+						else if (snake.y>yTurn-b*4) {
 							if(i==2) {
 								snakeBods[i].y = snake.y+b*(i+1);
 								snakeBods[i].x = xTurn;
@@ -468,7 +507,7 @@ package
 							}
 							
 						}
-						else if (snake.y>stage.height-b*6) {
+						else if (snake.y>yTurn-b*5) {
 							if(i==3) {
 								snakeBods[i].y = snake.y+b*(i+1);
 								snakeBods[i].x = xTurn;
@@ -482,7 +521,7 @@ package
 					}
 					if (dir == "d") { //trying this out
 						
-						if (snake.y<b*3) {
+						if (snake.y<yTurn+b*2) {
 							if(i==0) {
 								snakeBods[i].y = snake.y-b;
 								snakeBods[i].x = xTurn;
@@ -495,7 +534,7 @@ package
 							}
 							
 						}
-						else if (snake.y<b*4) {
+						else if (snake.y<yTurn+b*3) {
 							if(i==1) {
 								snakeBods[i].y = snake.y-b*(i+1);
 								snakeBods[i].x = xTurn;
@@ -504,7 +543,7 @@ package
 							}
 							
 						}
-						else if (snake.y<b*5) {
+						else if (snake.y<yTurn+b*4) {
 							if(i==2) {
 								snakeBods[i].y = snake.y-b*(i+1);
 								snakeBods[i].x = xTurn;
@@ -514,7 +553,7 @@ package
 							}
 							
 						}
-						else if (snake.y<b*6) {
+						else if (snake.y<yTurn+b*5) {
 							if(i==3) {
 								snakeBods[i].y = snake.y-b*(i+1);
 								snakeBods[i].x = xTurn;
@@ -555,52 +594,24 @@ package
 			//I need to redo turnSnake and put all these things that repeat in there.
 			if (snake.x<50) {
 				
-				vx *= -1;
-				vy=0;
-				snake.y-=50;
-				snake.x+=50;
-				xTurn = snake.x;
-				yTurn = snake.y;
-				bounce = true;
-				snake.rotation = 0;
-				//turnSnake("right", snake);
-				dir='r';			
+				
+				reverse("right", snake);
+							
 			}
 			if (snake.x>stage.stageWidth-50){				
-				vx *= -1;
-				vy=0;
-				snake.y+=50;
-				snake.x-=50;
-				xTurn = snake.x;
-				yTurn = snake.y;
-				bounce = true;
-				snake.rotation = 180;
-				//turnSnake("left", snake); 
-				dir='l';
+				
+				reverse("left", snake); 
+				
 			}			
 			if (snake.y>stage.stageHeight-50) {
-				vy *= -1;
-				vx=0;
-				snake.x-=50;
-				snake.y-=50;
-				xTurn = snake.x;
-				yTurn = snake.y;
-				bounce = true;
-				snake.rotation = -90;
-				//turnSnake("up", snake);
-				dir='u';
+				
+				reverse("up", snake);
+			
 			}
 			if (snake.y<50) {
-				vy *= -1;
-				vx=0;
-				snake.x+=50;
-				snake.y+=50;
-				xTurn = snake.x;
-				yTurn = snake.y;
-				bounce = true;
-				snake.rotation = 90;
-				//turnSnake("down", snake);	
-				dir='d';
+				
+				reverse("down", snake);	
+			
 			}			
 		}
 		public function keyDownHandler(event:KeyboardEvent):void {
@@ -669,8 +680,57 @@ package
 			}
 			
 		}
+		public function reverse(d:String, snake:Snake): void {
+			bounce = true;
+			if(d == "right"){
+				vx *= -1;
+				vy=0;
+				snake.y-=50;
+				snake.x+=50;
+				xTurn = snake.x;
+				yTurn = snake.y;
+				
+				snake.rotation = 0;
+				dir="r";
+			}
+			if (d == "left") {
+				vx *= -1;
+				vy=0;
+				snake.y+=50;
+				snake.x-=50;
+				xTurn = snake.x;
+				yTurn = snake.y;
+				
+				snake.rotation = 180;
+				dir="l";
+			}
+			if (d == "up") {
+				vy *= -1;
+				vx=0;
+				snake.x-=50;
+				snake.y-=50;
+				xTurn = snake.x;
+				yTurn = snake.y;
+				
+				snake.rotation = -90;
+				dir="u";
+			}
+			if (d == "down") {
+				vy *= -1;
+				vx=0;
+				snake.x+=50;
+				snake.y+=50;
+				xTurn = snake.x;
+				yTurn = snake.y;
+				
+				snake.rotation = 90;
+				dir="d";
+			}
+			
+		}
 		//all this needs to be fixed again to go along with being added to the stage instead of the snake.
 		//now I am cutting out the use of this method to turn the snake bodies a different way.
+		/*old turn snake
 		public function turnSnake(dir:String, snake:Sprite):void {  //input the direction of the turn with the keyboard event; "up" "down" "left" or "right" (right could actually be any other string.)
 			
 			//var bods:Array = body;
@@ -734,5 +794,7 @@ package
 			snakeBods.pop();
 			this.removeChild(snakeBods[size-2]);
 		} 
+		*/
 	}
+		
 }
