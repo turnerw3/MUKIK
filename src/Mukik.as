@@ -20,7 +20,7 @@ package
 		private var rocks:Array = new Array();
 		public var symbol:SymRock;
 		private var symRocks:Array = new Array();
-		//public var boxMap:Object = new Object();  //hopefully dont need this
+		
 		public var size:int = 3; //length of the snake
 		public var snakeBods:Array = new Array();
 		public var bod:SnakeBod;
@@ -33,6 +33,9 @@ package
 		public var dir:String; //l,r,u,d for the direction the snake is going.
 		public var turn:Boolean = false;
 		public var bounce:Boolean = false;
+		private var path: Array = new Array(size+1);  //this three dimensional array holds the number of snake body segments (including the tail) of path[i][x,y,r] = [x position, y position, and rotation being 0,1,2,3] for 0=vertical 1=90 degrees clockwise 2=180 and 3=270!  This will be stored 10 times for each segment to follow the path of the snake head.
+		private var pCount:int = 0; //path counter
+		private var bodyCount:int = 0;  // counter for active body
 		public function Mukik()
 		{
 			board = 
@@ -91,7 +94,8 @@ package
 				}
 			}
 			
-			addObject(snake, 200, 50);  
+			addObject(snake, 200, 50); 
+			path[0][0] = [snake.x, snake.y, 1];
 			addBody(size);
 			dir = 'r';
 		}
@@ -108,27 +112,55 @@ package
 		public function addBody(size:int):void {
 			
 			//Add the body segments
-			var p:int = 0;    //placeholder for putting on the snake bods
+			
 			for(var i:int = 0; i<size; i++){
 				bod = new SnakeBod();
-				p += b;
-				addObject(bod, snake.x-p, snake.y);				
+				
+				addObject(bod, path[i][0], path[i][1]);	//use path to place the bodies		
 				bod.rotation = 90;
 				snakeBods.push(bod);
 			}
-			p += b;
-			addObject(tail,snake.x-p, snake.y);
+			
+			addObject(tail,path[size][0], path[size][1]);
 			tail.rotation = 90;
 			snakeBods.push(tail);
 		}
-		
+		public function addPath(x:int, y:int, r:int):void {
+			var rot:int;
+			if (r == 0) {rot=0;}
+			else if (r == 90) {rot=1;}
+			else if (r == 180) {rot=2;}
+			else {rot=3;}
+			while(pCount < 10) {
+				path[0][pCount] = [x,y,rot];
+			}
+			if (pCount == 10) {
+				pCount = 0;
+				for(var i:int = 0; i < size; i++) {
+					path.pop();
+					path[i] = path[i+1];
+				}
+				
+				bodyCount += 1;
+				
+				if (bodyCount == size+1) {
+					bodyCount = 0;
+				}
+			}
+			if (r == 0) {rot=0;}
+			else if (r == 90) {rot=1;}
+			else if (r == 180) {rot=2;}
+			else {rot=3;}
+			
+			pCount += 1;
+		}
 		
 		
 		public function enterFrameHandler(event:Event):void {
 			//var p:int = 0;
 			snake.x += vx;
 			snake.y += vy;
-			
+			addPath(snake.x, snake.y, snake.rotation);
 			for(var i:int = 0; i<size+1; i++) {
 				snakeBods[i].x += vx;
 				snakeBods[i].y += vy;
