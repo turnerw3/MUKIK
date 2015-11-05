@@ -34,18 +34,9 @@ package
 				
 			}
 			this.addChild(snakeHead);
-			snakeHead.rotation = 90;
+			
 		
 		}
-		//public function addBod():void {
-		//	var bod:SnakeBod = new SnakeBod();
-		//	snakeBods.push(bod);
-			
-		//}
-		
-		
-		
-		//below needs fixed
-		
+				
 	}
 }
