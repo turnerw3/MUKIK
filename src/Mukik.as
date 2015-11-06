@@ -21,7 +21,7 @@ package
 		public var symbol:SymRock;
 		private var symRocks:Array = new Array();
 		
-		public var size:int = 4;//length of the snake
+		public var size:int = 10;//length of the snake
 		public var snakeBods:Array = new Array();
 		public var bod:SnakeBod;
 		private var tail:SnakeTail = new SnakeTail();
@@ -33,7 +33,7 @@ package
 		public var dir:String; //l,r,u,d for the direction the snake is going.
 		public var turn:Boolean = false;
 		public var bounce:Boolean = false;
-		private var path: Array = new Array(size+2);  //this three dimensional array holds the number of snake body segments (including the tail) of path[i][x,y,r] = [x position, y position, and rotation being 0,1,2,3] for 0=vertical 1=90 degrees clockwise 2=180 and 3=270!  This will be stored 10 times for each segment to follow the path of the snake head.
+		private var path: Array = new Array(size+1);  //this three dimensional array holds the number of snake body segments (including the tail) of path[i][x,y,r] = [x position, y position, and rotation being 0,1,2,3] for 0=vertical 1=90 degrees clockwise 2=180 and 3=270!  This will be stored 10 times for each segment to follow the path of the snake head.
 		private var pCount:int = 0; //path counter
 		private var pathMax:int = b/2;  // maximum paths needed to remember = the width of a body divided by the pixels moved per frame... or b/vx. if vx/y changes you must change 2 to match.
 		private var bodyCount:int = path.length-1;
@@ -100,7 +100,7 @@ package
 			}
 			for (var i:int = 0; i<path.length; i++) {
 				for (var j:int = 0; j<pathMax; j++) {
-					path[i][j] = [(200-(i+1)*b) + j*2, 50, 90];
+					path[i][j] = [(200-i*b) + j*2, 50, 90];
 				}
 			}
 			addObject(snake, 200, 50);
@@ -132,15 +132,15 @@ package
 				snakeBods.push(bod);
 				
 			}
-			
+			/*
 			addObject(tail,path[size][0][0], path[size][0][1]);
 			tail.rotation = path[size][0][2];
 			//tail.visible = false;
 			snakeBods.push(tail);
+			*/
 		}
 		//addPath is the soul of the snake body movement.
 		public function addPath(x:int, y:int, r:int):void {
-			var temp: Array = new Array()
 			
 			if(bodyCount >= 0) {
 				if (pCount < pathMax) {
@@ -154,11 +154,7 @@ package
 				if (bodyCount == 0) {
 					bodyCount = path.length-1;
 				}
-				/*
-				for(var i:int = size+1; i > 0 ; i--) {					
-					path[i] = path[i-1];
-				}
-				*/
+				
 			}		
 			
 		}
@@ -182,7 +178,7 @@ package
 			addPath(snake.x, snake.y, snake.rotation);
 			//checking for collision type and direction 
 			for (var i:int = 0; i<rocks.length; i++) {
-				if (Math.abs(snake.x-rocks[i].x) < 150 && Math.abs(snake.y-rocks[i].y) < 200) {
+				if (Math.abs(snake.x-rocks[i].x) < 100 && Math.abs(snake.y-rocks[i].y) < 100) {
 					symRocks[i].visible = true;
 				}
 				else {symRocks[i].visible = false;}
@@ -193,53 +189,25 @@ package
 					//rocks[i] = null;
 					//this.removeChild(symRocks[i]);
 				}
-				else if (snake.hitTestObject(rocks[i])) {
+				else if (snake.hitTestObject(rocks[i]) ) {
 					
 						if (dir=="d") {
+							 
 							reverse("up", snake);
 						}
-						if (dir =="u") {
+						else if (dir =="u") {
 							reverse("down", snake);
 						}
-						if (dir=="r") {
+						else if (dir=="r") {
 							reverse("left", snake);
 						}
-						if (dir=="l") {
+						else if (dir=="l") {
 							reverse("right", snake);
 						}
 										
 				}
-			}
+			}	
 			
-			
-			
-				
-				
-			
-			/*
-			else {
-				
-			}
-			*/
-			
-				/*
-				if (snakeBods[i].x < 50){
-					snakeBods[i].x = 50;
-				}
-				
-				if (snakeBods[i].x > stage.stageWidth - 50){
-					snakeBods[i].x = stage.stageWidth-50;
-				}
-				if (snakeBods[i].y > stage.stageHeight - 50){
-					snakeBods[i].y = stage.stageHeight - 50;
-				}
-				if (snakeBods[i].y < 50){
-					snakeBods[i].y = 50;
-				}
-				*/
-				
-			
-			//I need to redo turnSnake and put all these things that repeat in there.
 			if (snake.x<50) {
 				
 				
@@ -376,73 +344,10 @@ package
 			}
 			
 		}
-		//all this needs to be fixed again to go along with being added to the stage instead of the snake.
-		//now I am cutting out the use of this method to turn the snake bodies a different way.
-		/*old turn snake
-		public function turnSnake(dir:String, snake:Sprite):void {  //input the direction of the turn with the keyboard event; "up" "down" "left" or "right" (right could actually be any other string.)
-			
-			//var bods:Array = body;
-			var p:int = 0;
-			var x:int = snake.x;
-			var y:int = snake.y;
-			if (dir=="up") {
-				snake.rotation = -90;				
-				for (var i: int = 0; i<size; i++) {
-					p += 45;					
-					snakeBods[i].x = snake.x;
-					snakeBods[i].y = snake.y+p; 
-					snakeBods[i].rotation = 0;					
-				}
-				p+=45;
-				tail.x = snake.x;
-				tail.y = snake.y+p;
-				tail.rotation = 0;
-			}
-			else if (dir=="down") {
-				snake.rotation = 90;				
-				for (var i: int = 0; i<size; i++) {
-					p += 45;
-					snakeBods[i].x = snake.x;
-					snakeBods[i].y = snake.y-p;
-					snakeBods[i].rotation = 180;					
-				}
-				p+=45;
-				tail.x = snake.x;
-				tail.y = snake.y-p;
-				tail.rotation = 180;
-			}
-			else if (dir=="left") {
-				snake.rotation = 180;
-				for (var i: int = 0; i<size; i++) {
-					p += 45;
-					snakeBods[i].x = snake.x+p;
-					snakeBods[i].y = snake.y; 
-					snakeBods[i].rotation = -90;
-				}
-				p += 45;
-				tail.x = snake.x+p;
-				tail.y = snake.y;
-				tail.rotation = -90;
-			}
-			else {
-				snake.rotation = 0;
-				for (var i: int = 0; i<size; i++) {
-					p += 45;
-					snakeBods[i].x = snake.x-p;
-					snakeBods[i].y = snake.y; 
-					snakeBods[i].rotation = 90;
-				}
-				p += 45;
-				tail.x = snake.x-p;
-				tail.y = snake.y;
-				tail.rotation = 90;
-			}
-		}
 		public function removeBod():void {
 			snakeBods.pop();
-			this.removeChild(snakeBods[size-2]);
-		} 
-		*/
+			path.pop();
+		}
 	}
 		
 }
