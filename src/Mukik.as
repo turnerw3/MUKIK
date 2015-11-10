@@ -29,6 +29,7 @@ package
 		[Embed(source = "../swf/rock_explosion.swf")]
 		[Bindable]
 		private var RockExplosion:Class;
+		
 		public var snake:Snake;
 		public var b:int = 20;//variable for the box size of the game... the size of the square of the snake's body parts.
 		public var xTurn:int;
@@ -199,23 +200,24 @@ package
 			addPath(snake.x, snake.y, snake.rotation);
 			//checking for collision type and direction 
 			for (var i:int = 0; i<rocks.length; i++) {
-				if (Math.abs(snake.x-rocks[i].x) < 100 && Math.abs(snake.y-rocks[i].y) < 100 && !snake.hitTestObject(rocks[i])) {
+				if (Math.abs(snake.x-rocks[i].x) < 100 && Math.abs(snake.y-rocks[i].y) < 100 && !snake.hitTestObject(rocks[i]) && symRocks[i].type != 4) {
 					symRocks[i].visible = true;
 				}
 				else {symRocks[i].visible = false;}
 				
 				if (snake.hitTestObject(rocks[i]) && snake.type == symRocks[i].type) {
 					rocks[i].visible = false;
+					//symRocks[i] = new RockExplosion();
 					symRocks[i].visible = false;
+					symRocks[i].type = 4;
 					rockFxChannel = rockFx.play();
 					//symRocks[i] = null;
 					//rocks[i] = null;
 					//this.removeChild(symRocks[i]);
 				}
-				else if (snake.hitTestObject(rocks[i]) ) {
+				else if (snake.hitTestObject(rocks[i]) && symRocks[i].type != 4) {
 					
-						if (dir=="d") {
-							 
+						if (dir=="d") {							 
 							reverse("up", snake);
 						}
 						else if (dir =="u") {
