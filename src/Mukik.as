@@ -1,16 +1,34 @@
 package
 {//old version still on github if this gets too screwed up
-	import flash.display.DisplayObject;
+	//import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
+	import flash.media.Sound;
+	import flash.media.SoundChannel;
+	//import flash.media.SoundTransform;
 	import flash.ui.Keyboard;
 	
 	[SWF(width="650", height="500", backgroundColor="#000000", frameRate="24")]
 	
 	public class Mukik extends Sprite
 	{
-		public var background: Background = new Background();
+		//embed the bg music
+		[Embed(source="../mp3/menuTheme.mp3")]
+		private var BgMusic:Class;
+		private var music:Sound = new BgMusic();
+		private var musicChannel:SoundChannel = new SoundChannel();
+		//embed any sound effects
+		[Embed(source="../mp3/rockExplosion.mp3")]
+		private var RockSound:Class;
+		private var rockFx:Sound = new RockSound();
+		private var rockFxChannel:SoundChannel = new SoundChannel();
+		//load the background
+		public var background: Background = new Background();	
+		//add explosion image
+		[Embed(source = "../swf/rock_explosion.swf")]
+		[Bindable]
+		private var RockExplosion:Class;
 		public var snake:Snake;
 		public var b:int = 20;//variable for the box size of the game... the size of the square of the snake's body parts.
 		public var xTurn:int;
@@ -37,8 +55,10 @@ package
 		private var pCount:int = 0; //path counter
 		private var pathMax:int = b/2;  // maximum paths needed to remember = the width of a body divided by the pixels moved per frame... or b/vx. if vx/y changes you must change 2 to match.
 		private var bodyCount:int = path.length-1;
+		
 		public function Mukik()
 		{
+			musicChannel = music.play(0, int.MAX_VALUE);
 			board = 
 				[
 					[0,0,0,0,0,0,0,0,0,0,0],
@@ -52,6 +72,7 @@ package
 				];
 			createGame();
 			setupListeners();
+			
 			
 		}
 		public function createGame():void {
@@ -178,13 +199,15 @@ package
 			addPath(snake.x, snake.y, snake.rotation);
 			//checking for collision type and direction 
 			for (var i:int = 0; i<rocks.length; i++) {
-				if (Math.abs(snake.x-rocks[i].x) < 100 && Math.abs(snake.y-rocks[i].y) < 100) {
+				if (Math.abs(snake.x-rocks[i].x) < 100 && Math.abs(snake.y-rocks[i].y) < 100 && !snake.hitTestObject(rocks[i])) {
 					symRocks[i].visible = true;
 				}
 				else {symRocks[i].visible = false;}
 				
 				if (snake.hitTestObject(rocks[i]) && snake.type == symRocks[i].type) {
 					rocks[i].visible = false;
+					symRocks[i].visible = false;
+					rockFxChannel = rockFx.play();
 					//symRocks[i] = null;
 					//rocks[i] = null;
 					//this.removeChild(symRocks[i]);
