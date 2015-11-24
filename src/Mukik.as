@@ -40,7 +40,7 @@ package
 		public var symbol:SymRock;
 		private var symRocks:Array = new Array();
 		
-		public var size:int = 10;//length of the snake
+		public var size:int = 5;//length of the snake
 		public var snakeBods:Array = new Array();
 		public var bod:SnakeBod;
 		private var tail:SnakeTail = new SnakeTail();
@@ -196,41 +196,55 @@ package
 				//}				
 				
 			}
-			//set the vision
 			addPath(snake.x, snake.y, snake.rotation);
-			//checking for collision type and direction 
+						
+			//loop through all the rocks
 			for (var i:int = 0; i<rocks.length; i++) {
+				//set the vision
 				if (Math.abs(snake.x-rocks[i].x) < 100 && Math.abs(snake.y-rocks[i].y) < 100 && !snake.hitTestObject(rocks[i]) && symRocks[i].type != 4) {
 					symRocks[i].visible = true;
 				}
 				else {symRocks[i].visible = false;}
-				
-				if (snake.hitTestObject(rocks[i]) && snake.type == symRocks[i].type) {
-					rocks[i].visible = false;
-					//symRocks[i] = new RockExplosion();
-					symRocks[i].visible = false;
-					symRocks[i].type = 4;
-					rockFxChannel = rockFx.play();
-					//symRocks[i] = null;
-					//rocks[i] = null;
-					//this.removeChild(symRocks[i]);
-				}
-				else if (snake.hitTestObject(rocks[i]) && symRocks[i].type != 4) {
+				//checking for collision type and direction 
+				if (snake.hitTestObject(rocks[i])) {
+					if( snake.type == symRocks[i].type) {
 					
-						if (dir=="d") {							 
+						rocks[i].visible = false;
+						//symRocks[i] = new RockExplosion();
+						symRocks[i].visible = false;
+						symRocks[i].type = 4;
+						rockFxChannel = rockFx.play();
+						
+						//symRocks[i] = null;
+						//rocks[i] = null;
+						//this.removeChild(symRocks[i]);
+					}
+					
+					else if (symRocks[i].type != 4) {
+						
+						if (dir=="d") {		
+							snake.y-=2; //fixes it so he bounces back when he hits more than one block
 							reverse("up", snake);
+							
 						}
 						else if (dir =="u") {
+							snake.y+=2;
 							reverse("down", snake);
 						}
 						else if (dir=="r") {
+							snake.x-=2;
 							reverse("left", snake);
 						}
 						else if (dir=="l") {
+							snake.x+=2;
 							reverse("right", snake);
 						}
-										
+						
+					}
+				
 				}
+			
+				
 			}	
 			
 			if (snake.x<50) {
@@ -324,6 +338,7 @@ package
 		public function reverse(d:String, snake:Snake): void {
 			bounce = true;
 			if(d == "right"){
+				
 				vx *= -1;
 				vy=0;
 				snake.y-=b;
