@@ -12,7 +12,7 @@ package
 	import flash.ui.Mouse;
 	
 	
-	public class LevelOne extends Sprite
+	public class LevelTwo extends Sprite
 	{
 		//embed the bg music
 		[Embed(source="../mp3/menuTheme.mp3")]
@@ -36,7 +36,7 @@ package
 		[Embed(source="../swf/stoneTexture.swf")]
 		private var TextureImage:Class;			
 		private var texture:DisplayObject = new TextureImage();	
-		[Embed(source="../swf/levelOne.swf")]
+		[Embed(source="../swf/levelTwo.swf")]
 		private var BackgroundImage:Class;			
 		private var background:DisplayObject = new BackgroundImage();	
 		[Embed(source="../swf/gameOverLOSE.swf")]
@@ -62,7 +62,7 @@ package
 		
 		public var snake:Snake;
 		public var b:int = 20;//variable for the box size of the game... the size of the square of the snake's body parts.
-		private var raider:Raider = new Raider()
+		//private var raider:Raider = new Raider()
 		private var board: Array = new Array();
 		private var rock:Rock;
 		private var rocks:Array = new Array();
@@ -73,8 +73,8 @@ package
 		public var snakeBods:Array = new Array();
 		public var bod:SnakeBod;
 		private var tail:SnakeTail = new SnakeTail();
-		public var vx:int = 2;
-		public var vy:int = 0;
+		public var vx:int = 0;
+		public var vy:int = -2;
 		public var bvx:int;
 		public var bvy:int;
 		//public var path:Array = new Array(size);//idk
@@ -88,7 +88,7 @@ package
 		private var rockRand:int;
 		private var winlose:Boolean = false;
 		private var _stage:Object;
-		public function LevelOne(stage:Object)
+		public function LevelTwo(stage:Object)
 		{
 			_stage = stage;
 			this.addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
@@ -98,25 +98,31 @@ package
 			this.removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			
 		}
-			
-			
+		
+		
 		public function createGame():void {
 			musicChannel = music.play(0, int.MAX_VALUE);
 			headRand = Math.floor(Math.random()*3);
 			board = 
 				[
-					[0,0,0,0,0,1,0,0,0,2,0],
-					[0,0,0,0,0,1,0,0,0,0,0],
-					[0,0,1,1,1,1,1,1,1,0,0],
-					[2,0,1,0,0,0,2,0,1,1,1],
-					[1,1,1,0,0,0,0,0,1,0,0],
-					[0,0,1,0,0,1,1,1,1,0,0],
-					[0,0,1,0,0,1,0,0,1,0,0],
-					[0,0,1,0,0,1,0,0,1,0,0]
+					[0,0,1,0,0,1,0,0,2,0,0,1,0,0,0],
+					[1,1,1,1,1,1,0,0,0,0,0,1,0,2,0],
+					[0,0,1,0,0,1,1,1,1,1,1,1,1,1,1],
+					[0,0,1,0,0,1,0,0,0,1,0,0,0,0,0],
+					[2,0,1,0,0,1,1,1,1,1,1,1,1,1,1],
+					[0,0,1,0,0,1,2,0,0,1,0,0,0,0,0],
+					[1,1,1,1,1,1,0,0,1,1,1,1,1,1,1],
+					[0,0,1,0,0,1,0,0,1,0,0,0,1,0,0],
+					[0,0,1,0,0,1,1,1,1,2,0,0,1,0,0],
+					[0,0,1,1,1,1,2,0,1,1,1,1,1,0,0],
+					[0,0,0,0,0,1,0,0,1,0,2,0,0,0,0],
+					[2,0,0,0,0,1,0,0,1,0,0,0,0,0,0]
 				];
 			snake = new Snake(headRand);
 			_stage.addChild(texture);
 			_stage.addChild(background);
+			//addObject(raider, 750, 550);
+			
 			
 			setupListeners();
 			
@@ -125,31 +131,30 @@ package
 				for (var j:int=0;j<board[0].length;j++) {
 					if (board[i][j] == 1) {       //if the board has something other than zero put a rock there.
 						rock = new Rock();
-						addObject(rock, j*50 + 250, i*50 + 250);
+						addObject(rock, j*50 + 150, i*50 + 150);
 						rocks.push(rock);
-						
 						rockRand = Math.floor(Math.random() * 7);
 						if (rockRand <= 1) {
 							symbol = new SymRock(0);
-							addObject(symbol, j*50 + 250, i*50 + 250);
+							addObject(symbol, j*50 + 150, i*50 + 150);
 							symRocks.push(symbol);
 							symbol.visible = false;
 						}
 						else if (rockRand <= 3) {
 							symbol = new SymRock(1);
-							addObject(symbol, j*50 + 250, i*50 + 250);
+							addObject(symbol, j*50 + 150, i*50 + 150);
 							symRocks.push(symbol);
 							symbol.visible = false;
 						}
 						else if (rockRand <= 5) {
 							symbol = new SymRock(2);
-							addObject(symbol, j*50 + 250, i*50 + 250);
+							addObject(symbol, j*50 + 150, i*50 + 150);
 							symRocks.push(symbol);
 							symbol.visible = false;
 						}
 						else if (rockRand == 6) {
 							symbol = new SymRock(3);
-							addObject(symbol, j*50 + 250, i*50 + 250);
+							addObject(symbol, j*50 + 150, i*50 + 150);
 							symRocks.push(symbol);
 							symbol.visible = false;
 						}
@@ -157,7 +162,7 @@ package
 					if (board[i][j] == 2) {
 						
 						gem = new Gem();
-						addObject(gem, j*50 + 260, i*50 + 260);
+						addObject(gem, j*50 + 160, i*50 + 160);
 						gems.push(gem);
 					}
 				}
@@ -168,14 +173,13 @@ package
 			}
 			for (var i:int = 0; i<path.length; i++) {
 				for (var j:int = 0; j<pathMax; j++) {
-					path[i][j] = [(400-i*b) + (j+1)*2, 250, 90];
+					path[i][j] = [850, (600+i*b) - (j+1)*2, 0];
 				}
 			}
-			addObject(raider, 750, 550);
 			
 			addBody(size);
-			raider.visible = false;
-			dir = 'r';
+			//raider.visible = false;
+			
 		}
 		public function addObject(object:Sprite, xpos:int, ypos:int):void {			
 			_stage.addChild(object);
@@ -200,8 +204,9 @@ package
 				snakeBods.push(bod);
 				
 			}
-			addObject(snake, 400, 250);
-			snake.rotation = 90;
+			addObject(snake, 850, 600);
+			snake.rotation = 0;
+			dir = 'u';
 			/*
 			addObject(tail,path[size][0][0], path[size][0][1]);
 			tail.rotation = path[size][0][2];
@@ -213,7 +218,7 @@ package
 		private function addPath(x:int, y:int, r:int):void {
 			
 			
-				
+			
 			path[bodyCount][pCount] = [x,y,r];
 			pCount++;
 			
@@ -223,11 +228,15 @@ package
 				pCount = 0;	
 				
 				
-				
+				trace("bodyCount: "+bodyCount);
 				if (bodyCount <= 0) {
 					bodyCount = path.length-1;
 				}
-				
+				for (var i:int=0; i < path.length; i++) {
+					trace ("path" + i);
+					trace ("x: " + path[i][0][0] + ", y: " + path[i][0][1]);
+					
+				}
 				
 				
 			}	
@@ -244,8 +253,8 @@ package
 			//var p:int = 0;
 			snake.x += vx;
 			snake.y += vy;
-			raider.x += raider.vx;
-			raider.y += raider.vy;
+			//raider.x += raider.vx;
+			//raider.y += raider.vy;
 			for(var i:int = 0; i<snakeBods.length; i++) {
 				//if (path[i+1][0][0] != 0) {
 				//snakeBods[i].visible = true;
@@ -257,7 +266,7 @@ package
 			}
 			addPath(snake.x, snake.y, snake.rotation);
 			//win condition
-			if (snake.x > stage.stageWidth - 300 && snake.y > stage.stageHeight - 250) {
+			if (snake.x < 200 && snake.y < 150) {
 				_stage.removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
 				_stage.addChild(win);
 				_stage.addChild(retryNext);
@@ -286,10 +295,10 @@ package
 						//rocks[i] = null;
 						//this.removeChild(symRocks[i]);
 					}
-					//if it's a skull
+						//if it's a skull
 					else if (symRocks[i].type == 3) {
 						bumpChannel = bump.play();
-					
+						
 						_stage.removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
 						_stage.addChild(lose);
 						_stage.addChild(retry);
@@ -322,18 +331,8 @@ package
 					}
 					
 					
-				}
-				//check for raider collision
-				if(raider.hitTestObject(rocks[i]) ) {
-					
-					reverseRaider(raider);
-				}
-				
-				
+				}			
 			}	
-			if(raider.x > stage.stageWidth - 260) {
-				reverseRaider(raider);
-			}
 			//pickup gems
 			for (var i:int = 0; i < gems.length; i++) {
 				if (snake.hitTestObject(gems[i])) {
@@ -344,23 +343,23 @@ package
 					
 				}
 			}
-			if (snake.x<250) {
+			if (snake.x<150) {
 				
 				
 				reverse("right", snake);
 				
 			}
-			if (snake.x>stage.stageWidth-250){				
+			if (snake.x>stage.stageWidth-150){				
 				
 				reverse("left", snake); 
 				
 			}			
-			if (snake.y>stage.stageHeight-250) {
+			if (snake.y>stage.stageHeight-150) {
 				
 				reverse("up", snake);
 				
 			}
-			if (snake.y<250) {
+			if (snake.y<150) {
 				
 				reverse("down", snake);	
 				
@@ -431,23 +430,21 @@ package
 		private function mouseDownHandler(event:MouseEvent):void {
 			if(winlose) {
 				if (_stage.mouseX < 300 && _stage.mouseY > 700) {
-					dispatchEvent(new Event("levelOneRestart", true));
+					dispatchEvent(new Event("levelTwoRestart", true));
 					musicChannel.stop();
 				}
 				if (_stage.mouseX > 600 && _stage.mouseY > 700) {
-					dispatchEvent(new Event("levelTwoStart", true));
+					dispatchEvent(new Event("levelThreeStart", true));
 					musicChannel.stop();
 				}
 			}
 			else {
 				if (_stage.mouseY > 700) {
-					dispatchEvent(new Event("levelOneRestart", true));
+					dispatchEvent(new Event("levelTwoRestart", true));
 					musicChannel.stop();
 				}
 				
 			}
-			_stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
-			_stage.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
 			
 			
 		}
