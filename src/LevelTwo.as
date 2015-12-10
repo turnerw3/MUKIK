@@ -15,7 +15,7 @@ package
 	public class LevelTwo extends Sprite
 	{
 		//embed the bg music
-		[Embed(source="../mp3/menuTheme.mp3")]
+		[Embed(source="../mp3/levelTwoTheme.mp3")]
 		private var BgMusic:Class;
 		private var music:Sound = new BgMusic();
 		private var musicChannel:SoundChannel = new SoundChannel();
@@ -32,6 +32,10 @@ package
 		private var TingSound:Class;
 		private var ting:Sound = new TingSound();
 		private var tingChannel:SoundChannel = new SoundChannel();
+		[Embed(source="../mp3/gameOver.mp3")]
+		private var GOSound:Class;
+		private var gameOver:Sound = new GOSound();
+		private var GOChannel:SoundChannel = new SoundChannel();
 		//load the background
 		[Embed(source="../swf/stoneTexture.swf")]
 		private var TextureImage:Class;			
@@ -302,6 +306,8 @@ package
 						_stage.removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
 						_stage.addChild(lose);
 						_stage.addChild(retry);
+						musicChannel.stop();
+						GOChannel = gameOver.play();
 						_stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
 						
 					}
@@ -518,6 +524,8 @@ package
 				_stage.removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
 				_stage.addChild(lose);
 				_stage.addChild(retry);
+				musicChannel.stop();
+				GOChannel = gameOver.play();
 			}
 			else {
 				_stage.removeChild(snakeBods[snakeBods.length-1]);

@@ -15,17 +15,20 @@ package
 		private var _menu:Menu;
 		private var _levelOne:LevelOne;
 		private var _levelTwo:LevelTwo;
-		
+		private var _levelThree:LevelThree;
 		public function Mukik() 
 		{
 			_menu = new Menu(stage);
 			_levelOne = new LevelOne(stage);
 			_levelTwo = new LevelTwo(stage);
+			_levelThree = new LevelThree(stage);
 			stage.addChild(_menu);
 			stage.addEventListener("levelOneStart", MenuHandler);
 			stage.addEventListener("levelOneRestart", LevelOneRestart);
 			stage.addEventListener("levelTwoStart", LevelTwoStart);
 			stage.addEventListener("levelTwoRestart", LevelTwoRestart);
+			stage.addEventListener("levelThreeStart", LevelThreeStart);
+			stage.addEventListener("levelThreeRestart", LevelThreeRestart);
 			
 			
 		}
@@ -39,6 +42,12 @@ package
 			stage.removeChild(_levelOne);
 			_levelOne = null;
 			stage.addChild(_levelTwo);
+			
+		}
+		private function LevelThreeStart(event:Event): void {
+			stage.removeChild(_levelTwo);
+			_levelTwo = null;
+			stage.addChild(_levelThree);
 			
 		}
 		private function LevelOneRestart(event:Event): void {
@@ -56,6 +65,15 @@ package
 			_levelTwo = null;
 			_levelTwo = new LevelTwo(stage);
 			stage.addChild(_levelTwo);
+			
+			
+		}
+		private function LevelThreeRestart(event:Event): void {
+			
+			stage.removeChild(_levelThree);
+			_levelThree = null;
+			_levelThree = new LevelThree(stage);
+			stage.addChild(_levelThree);
 			
 			
 		}
